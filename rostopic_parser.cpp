@@ -6,10 +6,43 @@
 // Initialization Namespaces 
 using namespace std;
 
+// Function to get the terminal output
+string getStdoutFromCommand(string cmd) {
+
+	string data;
+	FILE * stream;
+	char buffer[];
+	cmd.append(" 2>&1");
+
+	stream = popen(cmd.c_str(), "r");
+	char chk; 
+
+	if (stream) {
+		cout << endl << "Press the 'C' Key to Stop Recording Data"; 
+		while ((!feof(stream)) && ((chk != 'C') || (chk != 'c')) {
+			chk = getch()
+			if (fgets(buffer, max_buffer, stream) != NULL) {
+				data.append(buffer);
+			}
+		}
+		pclose(stream);
+	}
+
+	return data;
+
+}
+
+// Function to make the tables
+string sorter(string input) {
+
+	return "nothing"; 
+}
+
+// Main
 int main(int argc, char* argv[]) {
 
 	// Initialization Varibales 
-	bool file ; 
+	bool file; 
 
 	// ------------------------------------------------------------------------
 	// 							Choose Input     							 //
@@ -38,32 +71,50 @@ int main(int argc, char* argv[]) {
 	// ------------------------------------------------------------------------
 	// 							Get Input 									 //
 
+	string output = ""; 
+
 	if (file != 1) {
 
-		string input = ""; 
+		// If Command Line 
+
+		string input = "";
+ 
+		/*-------------------------------------------------------------------*/
 
 		cout << "Please input the topic would like to build the table from : ";
 		cout << endl; 
 		getline(cin, input);
-		cout << "============================================================";
 		cout << endl << "Executing the Command: " << endl << endl;
 		cout << "rostopic echo " << input << endl << endl;
 		cout << "============================================================";
 		cout << endl; 
 
+		/*-------------------------------------------------------------------*/
+
+		string command = "rostopic echo " + input  
+		output = getStdoutFromCommand(command);
+
 	} else {
+
+		// If Directory
+
+		string directory; 
 
 		cout << "Please input the file would like to build the table from : ";
 		cout << endl; 
-
+		getline(cin, directory);
+		cout << "============================================================";
 
 	}
 
 	// ------------------------------------------------------------------------
 	// 							Execute Input 							     //
 
-	sorter(); 
-
+	string table; 
+	if (!(output.empty())) {
+		table = sorter(output); 
+	}
+	
 	// ------------------------------------------------------------------------
 	// 							Select Output 							     //	
 
