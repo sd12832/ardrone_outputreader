@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <fstream>
+#include <streambuf>
+#include <vector>
 
 // Initialization Namespaces 
 using namespace std;
@@ -11,20 +14,23 @@ string getStdoutFromCommand(string cmd) {
 
 	string data;
 	FILE * stream;
-	char buffer[];
+	vector<char> buffer;
 	cmd.append(" 2>&1");
 
 	stream = popen(cmd.c_str(), "r");
 	char chk; 
 
 	if (stream) {
-		cout << endl << "Press the 'C' Key to Stop Recording Data"; 
-		while ((!feof(stream)) && ((chk != 'C') || (chk != 'c')) {
-			chk = getch()
+		cout << endl << "Press the 'C' Key to Stop Recording Data" << endl; 
+		while ((!feof(stream)) && ((chk != 'C') || (chk != 'c'))) {
+			chk = getchar();
 			if (fgets(buffer, max_buffer, stream) != NULL) {
 				data.append(buffer);
 			}
 		}
+		cout << "Done Recording Data" << endl;
+		cout << "============================================================"
+									<< endl; 
 		pclose(stream);
 	}
 
@@ -43,14 +49,15 @@ int main(int argc, char* argv[]) {
 
 	// Initialization Varibales 
 	bool file; 
+	bool oFile; 
 
 	// ------------------------------------------------------------------------
 	// 							Choose Input     							 //
 
 	string inputType = "";
 
-	cout << "============================================================";
-	cout << endl; 
+	cout << "============================================================"
+									<< endl; 
 	cout << "Please input a number from the list below: " << endl << endl;
 	cout << "1. File (Read from a file that has already been saved)" << endl;
 	cout << "2. Command (Program reads from stream of the input command)"
@@ -58,8 +65,8 @@ int main(int argc, char* argv[]) {
 	getline(cin, inputType);
 
 	cout << endl; 
-	cout << "============================================================";
-	cout << endl; 
+	cout << "============================================================"
+									<< endl; 
 	
 	// Choosing the mode of input through bool
 	if (inputType[0] == '1') {
@@ -71,7 +78,7 @@ int main(int argc, char* argv[]) {
 	// ------------------------------------------------------------------------
 	// 							Get Input 									 //
 
-	string output = ""; 
+	std::stringstream output;
 
 	if (file != 1) {
 
@@ -81,17 +88,17 @@ int main(int argc, char* argv[]) {
  
 		/*-------------------------------------------------------------------*/
 
-		cout << "Please input the topic would like to build the table from : ";
-		cout << endl; 
+		cout << "Please input the topic would like to build the table from : "
+									<< endl; 
 		getline(cin, input);
 		cout << endl << "Executing the Command: " << endl << endl;
 		cout << "rostopic echo " << input << endl << endl;
-		cout << "============================================================";
-		cout << endl; 
+		cout << "============================================================"
+									<< endl; 
 
 		/*-------------------------------------------------------------------*/
 
-		string command = "rostopic echo " + input  
+		string command = "rostopic echo " + input; 
 		output = getStdoutFromCommand(command);
 
 	} else {
@@ -100,10 +107,15 @@ int main(int argc, char* argv[]) {
 
 		string directory; 
 
-		cout << "Please input the file would like to build the table from : ";
-		cout << endl; 
+		cout << "Please input the file directory from where the table needs to" 
+					<< endl << "be built from : "<< endl; 
 		getline(cin, directory);
-		cout << "============================================================";
+		cout << "Reading from directory: " << file; 
+		cout << "============================================================"
+									<< endl; 
+		
+		std::ifstream t(directory);
+		output << t.rdbuf();
 
 	}
 
@@ -112,19 +124,59 @@ int main(int argc, char* argv[]) {
 
 	string table; 
 	if (!(output.empty())) {
-		table = sorter(output); 
+		table = sorter(output.str()); 
 	}
 	
 	// ------------------------------------------------------------------------
 	// 							Select Output 							     //	
 
+	string outputType = "";
+
 	cout << "============================================================";
 	cout << endl;
 	cout << "Please input a number from the list below: " << endl << endl;
 	cout << "1. File (Output to a file that will be saved)" << endl;
-	cout << "2. Terminal (Output to a )"
-	getline(cin, input);
+	cout << "2. Terminal (Output to the command line)";
+	getline(cin, outputType);
 
+	// Choosing the mode of output through bool
+	if (outputType[0] == '1') {
+		oFile = 1;
+	} else  {
+		oFile = 0; 
+	}
+
+	if (oFile != 1) {
+
+		// If Command Line 
+ 
+		/*-------------------------------------------------------------------*/
+
+		cout << "Currently Printing Results of Table Down Below: " << endl;
+		cout << table;
+ 
+		/*-------------------------------------------------------------------*/
+
+	} else {
+
+		// If Directory
+
+		string outputdirectory = "";
+
+		cout << "Please input the file directory where the table needs to be " 
+						<< "written to : "<< endl; 
+		getline(cin, outputdirectory);
+		cout << "Writing to file: " << outputdirectory << endl; 
+
+		std::ofstream out(outputdirectory);
+		out << table; 
+
+		cout << "============================================================"
+									<< endl; 
+
+	}
+
+	// End of Main 
 	return 0; 
 
 }
