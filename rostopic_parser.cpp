@@ -6,8 +6,9 @@
 #include <streambuf>
 #include <vector>
 
+// Don't to This: [Look at Link 1] 
 // Initialization Namespaces 
-using namespace std;
+// using namespace std;
 
 // Function to get the terminal output
 std::stringstream getStdoutFromCommand(string cmd) { 
@@ -20,6 +21,11 @@ std::stringstream getStdoutFromCommand(string cmd) {
 
 // Function to make the tables
 string sorter(string input) {
+
+	// First get all the different kinds of subsections within the topic. 
+	for (unsigned int i = 0; i < input.length(); i++) {
+		
+	}
 
 	return "nothing"; 
 }
@@ -161,3 +167,13 @@ int main(int argc, char* argv[]) {
 	return 0; 
 
 }
+
+/*
+
+[Link 1]
+
+http://stackoverflow.com/questions/1452721/why-is-using-namespace-std-considered-bad-practice
+
+[Link 2]
+
+*/
