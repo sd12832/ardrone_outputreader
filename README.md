@@ -10,7 +10,7 @@ Rest of the program is interactive.
 # Notes 
 There is not trouble shooting as of now, so make sure that roscore and ardrone_autonomy are both switched on. 
 
-**Written and maintained by Sharan Duggirala**
-**Zero Energy Networks Lab**
-**Department of Electronic Systems Engineering**
-**Indian Institute of Science**
+<p>**Written and maintained by Sharan Duggirala**</p>
+<p>**Zero Energy Networks Lab**</p>
+<p>**Department of Electronic Systems Engineering**</p>
+<p>**Indian Institute of Science**</p>
