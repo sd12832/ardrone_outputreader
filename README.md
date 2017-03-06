@@ -1,2 +1,16 @@
 # AR.Drone ROS Topics Output Reader
-A C++ Reader for ROS based ardrone_autonomy, to organise data correctly for programmers using other languages, like MATLAB and OCTAVE. 
+
+To run this file just invoke `./parser` on your command line. 
+
+Rest of the program is interactive. 
+
+# FAQ 
+
+
+# Notes 
+There is not trouble shooting as of now, so make sure that roscore and ardrone_autonomy are both switched on. 
+
+**Written and maintained by Sharan Duggirala**
+**Zero Energy Networks Lab**
+**Department of Electronic Systems Engineering**
+**Indian Institute of Science**

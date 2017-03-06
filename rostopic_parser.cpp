@@ -10,31 +10,11 @@
 using namespace std;
 
 // Function to get the terminal output
-string getStdoutFromCommand(string cmd) {
+std::stringstream getStdoutFromCommand(string cmd) { 
 
-	string data;
-	FILE * stream;
-	vector<char> buffer;
-	cmd.append(" 2>&1");
-
-	stream = popen(cmd.c_str(), "r");
-	char chk; 
-
-	if (stream) {
-		cout << endl << "Press the 'C' Key to Stop Recording Data" << endl; 
-		while ((!feof(stream)) && ((chk != 'C') || (chk != 'c'))) {
-			chk = getchar();
-			if (fgets(buffer, max_buffer, stream) != NULL) {
-				data.append(buffer);
-			}
-		}
-		cout << "Done Recording Data" << endl;
-		cout << "============================================================"
-									<< endl; 
-		pclose(stream);
-	}
-
-	return data;
+	std::stringstream emptyOutput; 
+	emptyOutput.str("");
+	return emptyOutput; 
 
 }
 
@@ -123,7 +103,7 @@ int main(int argc, char* argv[]) {
 	// 							Execute Input 							     //
 
 	string table; 
-	if (!(output.empty())) {
+	if (!(output.rdbuf()->in_avail() == 0)) {
 		table = sorter(output.str()); 
 	}
 	
@@ -136,8 +116,9 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 	cout << "Please input a number from the list below: " << endl << endl;
 	cout << "1. File (Output to a file that will be saved)" << endl;
-	cout << "2. Terminal (Output to the command line)";
-	getline(cin, outputType);
+	cout << "2. Terminal (Output to the command line)" << endl;
+	getline(cin, outputType); 
+	cout << endl; 
 
 	// Choosing the mode of output through bool
 	if (outputType[0] == '1') {
