@@ -20,11 +20,11 @@ std::stringstream getStdoutFromCommand(string cmd) {
 }
 
 // Function to make the tables
-string sorter(string input) {
+string sorter(string directory) {
 
 	// First get all the different kinds of subsections within the topic. 
 	for (unsigned int i = 0; i < input.length(); i++) {
-		
+
 	}
 
 	return "nothing"; 
